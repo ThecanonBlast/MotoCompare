@@ -1,1 +1,23 @@
-/* You can add global styles to this file, and also import other style files */
+// Estilos globales de MotoCompare.
+// Los tokens y el reset viven en archivos separados (src/styles/) para
+// mantener este archivo corto y enfocado solo en estilos base + utilidades.
+@use 'styles/tokens' as *;
+@use 'styles/reset';
+
+body {
+  font-family: $font-family-base;
+  background-color: $color-bg;
+  color: $color-text;
+  font-size: $font-size-base;
+  line-height: 1.5;
+}
+
+// Utilidad de layout: centra el contenido y limita su ancho máximo.
+// Se usa en navbar, footer y cada página en vez de repetir el mismo
+// max-width/margin en cada componente.
+.container {
+  width: 100%;
+  max-width: $container-max-width;
+  margin-inline: auto;
+  padding-inline: $space-4;
+}
