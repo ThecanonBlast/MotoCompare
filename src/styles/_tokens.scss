@@ -14,11 +14,22 @@ $color-border: #e2e4e8;
 $color-text: #1a1d24;
 $color-text-muted: #6b7280;
 
-$color-primary: #e63946; // acento — energía, motociclismo
-$color-primary-hover: #c62d3a;
+// Color principal de marca: vino tinto (#35030f) — decisión explícita del
+// usuario. Se usa en navbar, footer y elementos de mayor jerarquía.
+$color-primary: #35030f;
+$color-primary-hover: #692636; // versión más clara del mismo tono, para hover
+
+// Acento: blanco. Se usa en estados activos/hover sobre fondo oscuro
+// (navbar, footer, toast) — sobre fondo claro no sirve (sería invisible),
+// así que ahí los hover vuelven a usar $color-primary.
+$color-accent: #ffffff;
 
 $color-success: #2e9e6d;
 $color-danger: #d64545;
+
+// Texto sobre fondos oscuros (navbar, footer)
+$color-text-on-dark: #f5eeec;
+$color-text-on-dark-muted: #d9b8bd;
 
 // Tipografía
 $font-family-base: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
