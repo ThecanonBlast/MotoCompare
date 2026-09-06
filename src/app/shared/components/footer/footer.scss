@@ -1,8 +1,7 @@
 @use 'tokens' as *;
 
 .footer {
-  border-top: 1px solid $color-border;
-  background-color: $color-surface;
+  background-color: $color-primary;
   margin-top: $space-12;
 }
 
@@ -13,15 +12,15 @@
   gap: $space-4;
   padding-block: $space-6;
   flex-wrap: wrap;
-  color: $color-text-muted;
+  color: $color-text-on-dark-muted;
   font-size: $font-size-sm;
 }
 
 .footer__brand {
   font-weight: 700;
-  color: $color-text;
+  color: $color-text-on-dark;
 }
 
 .footer__link:hover {
-  color: $color-primary;
+  color: $color-accent;
 }

@@ -1,0 +1,57 @@
+@if (motorcycle(); as moto) {
+  <section class="detail">
+    <div class="container detail__inner">
+      <a routerLink="/motocicletas" class="detail__back">← Volver al catálogo</a>
+
+      <div class="detail__layout">
+        <div class="detail__image" [class.detail__image--empty]="!moto.imagen">
+          @if (moto.imagen) {
+            <img [src]="moto.imagen" [alt]="moto.marca + ' ' + moto.modelo" />
+          } @else {
+            <span>{{ moto.marca }} {{ moto.modelo }}</span>
+          }
+        </div>
+
+        <div class="detail__info">
+          <span class="detail__category">{{ moto.categoria }}</span>
+          <h1 class="detail__title">{{ moto.marca }} {{ moto.modelo }} · {{ moto.anio }}</h1>
+          <p class="detail__price">{{ formatPrice(moto.precio) }}</p>
+          <p class="detail__description">{{ moto.descripcion }}</p>
+
+          <dl class="detail__specs">
+            <div>
+              <dt>Cilindrada</dt>
+              <dd>{{ moto.cilindrada }} cc</dd>
+            </div>
+            <div>
+              <dt>Potencia</dt>
+              <dd>{{ moto.potencia }} hp</dd>
+            </div>
+            <div>
+              <dt>Torque</dt>
+              <dd>{{ moto.torque }} Nm</dd>
+            </div>
+          </dl>
+
+          <div class="detail__actions">
+            <a routerLink="/comparador" class="detail__cta detail__cta--primary">Comparar esta moto</a>
+            <button
+              type="button"
+              class="detail__cta detail__cta--secondary"
+              (click)="toggleFavorite(moto.id)"
+            >
+              {{ favorites.isFavorite(moto.id) ? '★ En favoritos' : '☆ Agregar a favoritos' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+} @else {
+  <section class="detail">
+    <div class="container">
+      <p>No encontramos esa motocicleta.</p>
+      <a routerLink="/motocicletas">Volver al catálogo</a>
+    </div>
+  </section>
+}

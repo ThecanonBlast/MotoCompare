@@ -1,0 +1,35 @@
+@use 'tokens' as *;
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY($space-3);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.toast {
+  position: fixed;
+  right: $space-6;
+  bottom: $space-6;
+  z-index: 100;
+
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+
+  background-color: $color-primary;
+  color: $color-text-on-dark;
+  font-size: $font-size-sm;
+  font-weight: 600;
+
+  padding: $space-3 $space-6;
+  border-radius: $border-radius;
+  border-left: 4px solid $color-accent;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+
+  animation: toast-in 0.25s ease-out;
+}

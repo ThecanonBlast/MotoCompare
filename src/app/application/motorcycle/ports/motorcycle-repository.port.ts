@@ -9,6 +9,7 @@ import { Motorcycle } from '../../../domain/motorcycle/motorcycle.model';
 // los casos de uso ni las páginas que los consumen.
 export interface MotorcycleRepository {
   getAll(): Observable<Motorcycle[]>;
+  getById(id: string): Observable<Motorcycle | undefined>;
 }
 
 export const MOTORCYCLE_REPOSITORY = new InjectionToken<MotorcycleRepository>('MotorcycleRepository');
