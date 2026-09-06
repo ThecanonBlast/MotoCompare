@@ -1,0 +1,27 @@
+@use 'tokens' as *;
+
+.footer {
+  border-top: 1px solid $color-border;
+  background-color: $color-surface;
+  margin-top: $space-12;
+}
+
+.footer__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-4;
+  padding-block: $space-6;
+  flex-wrap: wrap;
+  color: $color-text-muted;
+  font-size: $font-size-sm;
+}
+
+.footer__brand {
+  font-weight: 700;
+  color: $color-text;
+}
+
+.footer__link:hover {
+  color: $color-primary;
+}
