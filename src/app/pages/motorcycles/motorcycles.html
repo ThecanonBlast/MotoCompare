@@ -1,0 +1,40 @@
+<section class="catalog">
+  <div class="container">
+    <header class="catalog__header">
+      <h1 class="catalog__title">Catálogo de motocicletas</h1>
+      <p class="catalog__count">{{ filteredMotorcycles().length }} resultado(s)</p>
+    </header>
+
+    <div class="catalog__filters">
+      <label class="catalog__filter">
+        Marca
+        <select (change)="onMarcaChange($any($event.target).value)">
+          <option value="">Todas</option>
+          @for (marca of marcas(); track marca) {
+            <option [value]="marca">{{ marca }}</option>
+          }
+        </select>
+      </label>
+
+      <label class="catalog__filter">
+        Categoría
+        <select (change)="onCategoriaChange($any($event.target).value)">
+          <option value="">Todas</option>
+          @for (categoria of categorias(); track categoria) {
+            <option [value]="categoria">{{ categoria }}</option>
+          }
+        </select>
+      </label>
+    </div>
+
+    @if (filteredMotorcycles().length) {
+      <div class="catalog__grid">
+        @for (motorcycle of filteredMotorcycles(); track motorcycle.id) {
+          <app-motorcycle-card [motorcycle]="motorcycle" />
+        }
+      </div>
+    } @else {
+      <p class="catalog__empty">No hay motos que coincidan con esos filtros.</p>
+    }
+  </div>
+</section>
