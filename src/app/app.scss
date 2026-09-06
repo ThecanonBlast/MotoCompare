@@ -1,0 +1,11 @@
+// Layout raíz: navbar + contenido + footer, con el footer siempre
+// pegado abajo aunque la página tenga poco contenido.
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.site-main {
+  flex: 1;
+}

@@ -1,0 +1,13 @@
+<header class="navbar">
+  <div class="container navbar__inner">
+    <a routerLink="/" class="navbar__brand">MotoCompare</a>
+
+    <nav class="navbar__links">
+      @for (link of links; track link.path) {
+        <a [routerLink]="link.path" routerLinkActive="is-active" class="navbar__link">{{ link.label }}</a>
+      }
+    </nav>
+
+    <a routerLink="/login" class="navbar__login">Iniciar sesión</a>
+  </div>
+</header>
