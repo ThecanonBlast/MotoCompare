@@ -1,0 +1,57 @@
+@use 'tokens' as *;
+
+.catalog {
+  padding-block: $space-8;
+}
+
+.catalog__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: $space-4;
+  margin-bottom: $space-6;
+  flex-wrap: wrap;
+}
+
+.catalog__title {
+  font-size: $font-size-xl;
+  font-weight: 700;
+}
+
+.catalog__count {
+  color: $color-text-muted;
+  font-size: $font-size-sm;
+}
+
+.catalog__filters {
+  display: flex;
+  gap: $space-6;
+  margin-bottom: $space-8;
+  flex-wrap: wrap;
+}
+
+.catalog__filter {
+  display: flex;
+  flex-direction: column;
+  gap: $space-1;
+  font-size: $font-size-sm;
+  color: $color-text-muted;
+
+  select {
+    padding: $space-2 $space-3;
+    border: 1px solid $color-border;
+    border-radius: $border-radius;
+    background-color: $color-bg;
+    color: $color-text;
+  }
+}
+
+.catalog__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: $space-6;
+}
+
+.catalog__empty {
+  color: $color-text-muted;
+}

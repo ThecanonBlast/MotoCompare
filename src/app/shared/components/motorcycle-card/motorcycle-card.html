@@ -1,0 +1,25 @@
+<article class="motorcycle-card">
+  <div class="motorcycle-card__image" [class.motorcycle-card__image--empty]="!motorcycle().imagen">
+    @if (motorcycle().imagen) {
+      <img [src]="motorcycle().imagen" [alt]="motorcycle().marca + ' ' + motorcycle().modelo" />
+    } @else {
+      <span>{{ motorcycle().marca }} {{ motorcycle().modelo }}</span>
+    }
+  </div>
+
+  <div class="motorcycle-card__body">
+    <span class="motorcycle-card__category">{{ motorcycle().categoria }}</span>
+    <h3 class="motorcycle-card__title">{{ motorcycle().marca }} {{ motorcycle().modelo }}</h3>
+
+    <ul class="motorcycle-card__specs">
+      <li>{{ motorcycle().cilindrada }} cc</li>
+      <li>{{ motorcycle().potencia }} hp</li>
+      <li>{{ motorcycle().torque }} Nm</li>
+    </ul>
+
+    <div class="motorcycle-card__footer">
+      <span class="motorcycle-card__price">{{ formatPrice(motorcycle().precio) }}</span>
+      <a [routerLink]="['/motocicletas', motorcycle().id]" class="motorcycle-card__link">Ver detalle</a>
+    </div>
+  </div>
+</article>
