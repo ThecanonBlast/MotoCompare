@@ -13,4 +13,8 @@ export class MockMotorcycleRepository implements MotorcycleRepository {
   getAll(): Observable<Motorcycle[]> {
     return of(MOCK_MOTORCYCLES);
   }
+
+  getById(id: string): Observable<Motorcycle | undefined> {
+    return of(MOCK_MOTORCYCLES.find((motorcycle) => motorcycle.id === id));
+  }
 }
