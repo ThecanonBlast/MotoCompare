@@ -67,7 +67,7 @@
               }
             </div>
 
-            <a routerLink="/motocicletas" class="compare__catalog-link">O elige otra desde el catálogo →</a>
+            <a routerLink="/motocicletas" [queryParams]="{ compare: 'true' }" class="compare__catalog-link">O elige otra desde el catálogo →</a>
           </div>
         } @else {
           <div class="compare__skeleton compare__skeleton--muted">

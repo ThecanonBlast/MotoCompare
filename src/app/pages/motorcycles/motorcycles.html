@@ -1,5 +1,11 @@
 <section class="catalog">
   <div class="container">
+    @if (isSelectingForCompare()) {
+      <p class="catalog__banner">
+        Elige la moto que quieres comparar — un clic la selecciona y te lleva de vuelta al comparador.
+      </p>
+    }
+
     <header class="catalog__header">
       <h1 class="catalog__title">Catálogo de motocicletas</h1>
       <p class="catalog__count">{{ filteredMotorcycles().length }} resultado(s)</p>
@@ -30,7 +36,11 @@
     @if (filteredMotorcycles().length) {
       <div class="catalog__grid">
         @for (motorcycle of filteredMotorcycles(); track motorcycle.id) {
-          <app-motorcycle-card [motorcycle]="motorcycle" />
+          <app-motorcycle-card
+            [motorcycle]="motorcycle"
+            [selectableForCompare]="isSelectingForCompare()"
+            (pickForCompare)="onPickForCompare($event)"
+          />
         }
       </div>
     } @else {
