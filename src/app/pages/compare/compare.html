@@ -1,68 +1,105 @@
 <section class="compare">
   <div class="container">
     <header class="compare__header">
-      <h1 class="compare__title">Comparador de motocicletas</h1>
-      <p class="compare__subtitle">Elige hasta dos motos para ver en qué se diferencian.</p>
-    </header>
-
-    @if (!motoA() && !motoB()) {
-      <p class="compare__empty">
-        Todavía no has elegido ninguna moto. Ve al <a routerLink="/motocicletas">catálogo</a>, entra al
-        detalle de una moto y usa el botón "Comparar esta moto".
-      </p>
-    } @else {
-      <div class="compare__slots">
-        <div class="compare__slot">
-          @if (motoA(); as moto) {
-            <h2 class="compare__slot-title">{{ moto.marca }} {{ moto.modelo }}</h2>
-            <button type="button" class="compare__remove" (click)="removeMotorcycle(moto.id)">Quitar</button>
-          }
-        </div>
-
-        <span class="compare__vs">VS</span>
-
-        <div class="compare__slot">
-          @if (motoB(); as moto) {
-            <h2 class="compare__slot-title">{{ moto.marca }} {{ moto.modelo }}</h2>
-            <button type="button" class="compare__remove" (click)="removeMotorcycle(moto.id)">Quitar</button>
-          } @else {
-            <label class="compare__slot-empty">
-              Elige la segunda moto
-              <select (change)="onPickMotorcycle($any($event.target).value)">
-                <option value="">Selecciona...</option>
-                @for (moto of optionsForNextSlot(); track moto.id) {
-                  <option [value]="moto.id">{{ moto.marca }} {{ moto.modelo }}</option>
-                }
-              </select>
-            </label>
-          }
-        </div>
+      <div>
+        <h1 class="compare__title">Comparador de motocicletas</h1>
+        <p class="compare__subtitle">Elige hasta dos motos para ver en qué se diferencian.</p>
       </div>
 
-      @if (motoA() && motoB()) {
-        <div class="compare__table">
-          @for (row of comparisonRows(); track row.label) {
-            <div class="compare__row">
-              <span class="compare__value" [class.compare__value--win]="row.winner === 'a'">
-                {{ row.format === 'currency' ? formatPrice(row.valueA) : row.valueA + ' ' + row.unit }}
-              </span>
-              <span class="compare__label">{{ row.label }}</span>
-              <span class="compare__value" [class.compare__value--win]="row.winner === 'b'">
-                {{ row.format === 'currency' ? formatPrice(row.valueB) : row.valueB + ' ' + row.unit }}
-              </span>
-            </div>
-          }
-        </div>
-
-        <div class="compare__recommendation">
-          <p class="compare__recommendation-tag">Recomendación (vista previa de diseño)</p>
-          <p>{{ recommendation() }}</p>
-          <p class="compare__recommendation-note">
-            Esta es una orientación general, no una decisión definitiva. Más adelante esta sección se
-            conectará a una recomendación generada por IA.
-          </p>
-        </div>
+      @if (motoA() || motoB()) {
+        <button type="button" class="compare__clear" (click)="clearSelection()">Limpiar selección</button>
       }
+    </header>
+
+    <div class="compare__slots">
+      <!-- Moto principal (izquierda) -->
+      <div class="compare__slot">
+        @if (motoA(); as moto) {
+          <div class="compare__slot-image" [class.compare__slot-image--empty]="!moto.imagen">
+            @if (moto.imagen) {
+              <img [src]="moto.imagen" [alt]="moto.marca + ' ' + moto.modelo" />
+            } @else {
+              <span>{{ moto.marca }} {{ moto.modelo }}</span>
+            }
+          </div>
+          <h2 class="compare__slot-title">{{ moto.marca }} {{ moto.modelo }}</h2>
+          <button type="button" class="compare__remove" (click)="removeMotorcycle(moto.id)">Quitar</button>
+        } @else {
+          <div class="compare__skeleton">
+            <a routerLink="/motocicletas" class="compare__pick-btn">Escoger moto</a>
+          </div>
+        }
+      </div>
+
+      <span class="compare__vs">VS</span>
+
+      <!-- Moto secundaria (derecha) -->
+      <div class="compare__slot">
+        @if (motoB(); as moto) {
+          <div class="compare__slot-image" [class.compare__slot-image--empty]="!moto.imagen">
+            @if (moto.imagen) {
+              <img [src]="moto.imagen" [alt]="moto.marca + ' ' + moto.modelo" />
+            } @else {
+              <span>{{ moto.marca }} {{ moto.modelo }}</span>
+            }
+          </div>
+          <h2 class="compare__slot-title">{{ moto.marca }} {{ moto.modelo }}</h2>
+          <button type="button" class="compare__remove" (click)="removeMotorcycle(moto.id)">Quitar</button>
+        } @else if (motoA()) {
+          <div class="compare__suggestions">
+            <p class="compare__suggestions-label">Motos recomendadas para comparar</p>
+
+            <div class="compare__carousel">
+              @for (moto of recommendedMotorcycles(); track moto.id) {
+                <button type="button" class="compare__carousel-item" (click)="selectRecommended(moto.id)">
+                  <span
+                    class="compare__slot-image compare__slot-image--sm"
+                    [class.compare__slot-image--empty]="!moto.imagen"
+                  >
+                    @if (moto.imagen) {
+                      <img [src]="moto.imagen" [alt]="moto.marca + ' ' + moto.modelo" />
+                    } @else {
+                      <span>{{ moto.marca }} {{ moto.modelo }}</span>
+                    }
+                  </span>
+                  <span class="compare__carousel-name">{{ moto.marca }} {{ moto.modelo }}</span>
+                </button>
+              }
+            </div>
+
+            <a routerLink="/motocicletas" class="compare__catalog-link">O elige otra desde el catálogo →</a>
+          </div>
+        } @else {
+          <div class="compare__skeleton compare__skeleton--muted">
+            <p>Primero elige la moto principal</p>
+          </div>
+        }
+      </div>
+    </div>
+
+    @if (motoA() && motoB()) {
+      <div class="compare__table">
+        @for (row of comparisonRows(); track row.label) {
+          <div class="compare__row">
+            <span class="compare__value" [class.compare__value--win]="row.winner === 'a'">
+              {{ row.format === 'currency' ? formatPrice(row.valueA) : row.valueA + ' ' + row.unit }}
+            </span>
+            <span class="compare__label">{{ row.label }}</span>
+            <span class="compare__value" [class.compare__value--win]="row.winner === 'b'">
+              {{ row.format === 'currency' ? formatPrice(row.valueB) : row.valueB + ' ' + row.unit }}
+            </span>
+          </div>
+        }
+      </div>
+
+      <div class="compare__recommendation">
+        <p class="compare__recommendation-tag">Recomendación (vista previa de diseño)</p>
+        <p>{{ recommendation() }}</p>
+        <p class="compare__recommendation-note">
+          Esta es una orientación general, no una decisión definitiva. Más adelante esta sección se
+          conectará a una recomendación generada por IA.
+        </p>
+      </div>
     }
   </div>
 </section>

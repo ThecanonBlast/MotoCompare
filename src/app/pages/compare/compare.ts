@@ -7,6 +7,7 @@ import { Motorcycle } from '../../domain/motorcycle/motorcycle.model';
 import { formatPrice } from '../../shared/utils/format-price';
 import { buildComparisonRows } from '../../shared/utils/motorcycle-comparison';
 import { getRecommendationText } from '../../shared/utils/get-recommendation';
+import { getRecommendedMotorcycles } from '../../shared/utils/get-recommended-motorcycles';
 
 @Component({
   selector: 'app-compare',
@@ -23,11 +24,15 @@ export class Compare {
   protected readonly motoA = computed(() => this.findSelected(0));
   protected readonly motoB = computed(() => this.findSelected(1));
 
-  // Opciones para el selector de la segunda moto: todas menos las que
-  // ya están elegidas.
-  protected readonly optionsForNextSlot = computed(() => {
-    const selectedIds = this.compareService.selectedIds();
-    return this.allMotorcycles().filter((moto) => !selectedIds.includes(moto.id));
+  // Motos sugeridas para el carrusel del segundo puesto. Solo tiene
+  // sentido calcularlas cuando ya hay una moto principal y todavía
+  // falta elegir la segunda.
+  protected readonly recommendedMotorcycles = computed(() => {
+    const main = this.motoA();
+    if (!main || this.motoB()) {
+      return [];
+    }
+    return getRecommendedMotorcycles(main, this.allMotorcycles());
   });
 
   protected readonly comparisonRows = computed(() => {
@@ -49,13 +54,15 @@ export class Compare {
     return id ? this.allMotorcycles().find((moto) => moto.id === id) : undefined;
   }
 
-  protected onPickMotorcycle(id: string): void {
-    if (id) {
-      this.compareService.select(id);
-    }
+  protected selectRecommended(id: string): void {
+    this.compareService.select(id);
   }
 
   protected removeMotorcycle(id: string): void {
     this.compareService.remove(id);
+  }
+
+  protected clearSelection(): void {
+    this.compareService.clear();
   }
 }
