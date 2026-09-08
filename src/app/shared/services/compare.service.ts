@@ -48,6 +48,10 @@ export class CompareService {
     this.update(this.ids().filter((existing) => existing !== id));
   }
 
+  clear(): void {
+    this.update([]);
+  }
+
   private update(ids: string[]): void {
     this.ids.set(ids);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
