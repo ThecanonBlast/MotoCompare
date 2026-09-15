@@ -14,3 +14,20 @@ export interface Motorcycle {
   imagen: string; // URL; vacío si no hay imagen todavía
   descripcion: string;
 }
+
+// Filtros que soporta GET /api/motos (marca y categoria por ahora, ver
+// FiltrosMoto en dominio/puertos del backend). Todos opcionales.
+export interface MotorcycleFilters {
+  marca?: string;
+  categoria?: string;
+}
+
+// Una comparación destacada del catálogo (ej. "Yamaha MT-07 vs Kawasaki
+// Z650"), con las dos motos completas — igual que ComparacionRecomendadaDTO
+// del backend. Todavía sin página que la consuma (la construye el Comparador).
+export interface RecommendedComparison {
+  id: string;
+  titulo: string;
+  motoA: Motorcycle;
+  motoB: Motorcycle;
+}

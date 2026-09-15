@@ -49,3 +49,23 @@
     color: $color-accent;
   }
 }
+
+.navbar__session {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+  flex-wrap: wrap;
+}
+
+.navbar__logout {
+  color: $color-text-on-dark-muted;
+  font-size: $font-size-sm;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+
+  &:hover {
+    color: $color-accent;
+  }
+}
