@@ -1,0 +1,142 @@
+<section class="garage-page">
+  <h1>Mi Garage</h1>
+
+  @if (error()) {
+    <p class="garage-page__error">{{ error() }}</p>
+  }
+
+  <section class="garage-page__add">
+    <h2>Agregar moto</h2>
+    <form (submit)="$event.preventDefault(); onAgregarMoto()">
+      <label>
+        Moto
+        <select [value]="motoIdSeleccionada()" (change)="motoIdSeleccionada.set($any($event.target).value)" required>
+          <option value="" disabled>Selecciona una moto del catálogo</option>
+          @for (moto of catalog(); track moto.id) {
+            <option [value]="moto.id">{{ moto.marca }} {{ moto.modelo }} ({{ moto.anio }})</option>
+          }
+        </select>
+      </label>
+      <label>
+        Apodo (opcional)
+        <input type="text" [value]="apodoNuevo()" (input)="apodoNuevo.set($any($event.target).value)" />
+      </label>
+      <button type="submit">Agregar al garage</button>
+    </form>
+  </section>
+
+  @if (cargandoGarage()) {
+    <p>Cargando tu garage...</p>
+  } @else if (garage().length === 0) {
+    <p>Todavía no tienes motos guardadas.</p>
+  } @else {
+    <ul class="garage-page__list">
+      @for (item of garage(); track item.id) {
+        <li class="garage-page__item">
+          <strong>{{ item.apodo || (item.moto.marca + ' ' + item.moto.modelo) }}</strong>
+          ({{ item.moto.marca }} {{ item.moto.modelo }}, {{ item.moto.anio }}) —
+          {{ item.kilometrajeActual }} km — agregada el {{ item.agregadaEn | date: 'shortDate' }}
+
+          <div class="garage-page__item-actions">
+            <label>
+              Actualizar km
+              <input #kmInput type="number" [value]="item.kilometrajeActual" min="0" />
+            </label>
+            <button type="button" (click)="onActualizarKilometraje(item.id, kmInput.valueAsNumber)">Guardar km</button>
+            <button type="button" (click)="onVerDetalle(item.id)">Mantenimiento y costes</button>
+            <button type="button" (click)="onEliminarMoto(item.id)">Eliminar</button>
+          </div>
+
+          @if (seleccionadaId() === item.id) {
+            <div class="garage-page__detail">
+              <section>
+                <h3>Mantenimientos</h3>
+                @if (mantenimientos().length === 0) {
+                  <p>Sin mantenimientos registrados.</p>
+                } @else {
+                  <ul>
+                    @for (registro of mantenimientos(); track registro.id) {
+                      <li>
+                        {{ registro.tipo }} — {{ registro.fecha | date: 'shortDate' }} — {{ registro.kilometraje }} km —
+                        {{ formatPrice(registro.costo) }}
+                        @if (registro.notas) {
+                          — {{ registro.notas }}
+                        }
+                      </li>
+                    }
+                  </ul>
+                }
+
+                <form (submit)="$event.preventDefault(); onRegistrarMantenimiento()">
+                  <label>
+                    Tipo
+                    <select [value]="nuevoTipoMantenimiento()" (change)="nuevoTipoMantenimiento.set($any($event.target).value)">
+                      @for (tipo of tiposMantenimiento; track tipo) {
+                        <option [value]="tipo">{{ tipo }}</option>
+                      }
+                    </select>
+                  </label>
+                  <label>
+                    Kilometraje
+                    <input type="number" [value]="nuevoKilometraje()" (input)="nuevoKilometraje.set($any($event.target).valueAsNumber)" min="0" required />
+                  </label>
+                  <label>
+                    Costo
+                    <input type="number" [value]="nuevoCostoMantenimiento()" (input)="nuevoCostoMantenimiento.set($any($event.target).valueAsNumber)" min="0" required />
+                  </label>
+                  <label>
+                    Notas (opcional)
+                    <input type="text" [value]="nuevasNotas()" (input)="nuevasNotas.set($any($event.target).value)" />
+                  </label>
+                  <button type="submit">Registrar mantenimiento</button>
+                </form>
+              </section>
+
+              <section>
+                <h3>Costes mensuales</h3>
+                @if (costos().length === 0) {
+                  <p>Sin costes configurados.</p>
+                } @else {
+                  <ul>
+                    @for (costo of costos(); track costo.id) {
+                      <li>
+                        {{ costo.categoria }} — {{ formatPrice(costo.monto) }}
+                        @if (costo.descripcion) {
+                          — {{ costo.descripcion }}
+                        }
+                      </li>
+                    }
+                  </ul>
+                  <p>
+                    Total mensual: {{ formatPrice(totalCostosMensuales()) }} — Salario ideal orientativo:
+                    {{ formatPrice(salarioIdeal()) }}
+                  </p>
+                }
+
+                <form (submit)="$event.preventDefault(); onConfigurarCosto()">
+                  <label>
+                    Categoría
+                    <select [value]="nuevaCategoriaCosto()" (change)="nuevaCategoriaCosto.set($any($event.target).value)">
+                      @for (categoria of categoriasCosto; track categoria) {
+                        <option [value]="categoria">{{ categoria }}</option>
+                      }
+                    </select>
+                  </label>
+                  <label>
+                    Monto
+                    <input type="number" [value]="nuevoMonto()" (input)="nuevoMonto.set($any($event.target).valueAsNumber)" min="0" required />
+                  </label>
+                  <label>
+                    Descripción (opcional)
+                    <input type="text" [value]="nuevaDescripcionCosto()" (input)="nuevaDescripcionCosto.set($any($event.target).value)" />
+                  </label>
+                  <button type="submit">Configurar costo</button>
+                </form>
+              </section>
+            </div>
+          }
+        </li>
+      }
+    </ul>
+  }
+</section>

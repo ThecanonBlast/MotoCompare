@@ -8,6 +8,13 @@
       }
     </nav>
 
-    <a routerLink="/login" class="navbar__login">Iniciar sesión</a>
+    @if (authService.usuario(); as usuario) {
+      <span class="navbar__session">
+        <a routerLink="/perfil" class="navbar__login">{{ usuario.nombre }}</a>
+        <button type="button" class="navbar__logout" (click)="onLogout()">Cerrar sesión</button>
+      </span>
+    } @else {
+      <a routerLink="/login" class="navbar__login">Iniciar sesión</a>
+    }
   </div>
 </header>

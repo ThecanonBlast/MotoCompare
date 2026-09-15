@@ -1,0 +1,31 @@
+<section class="auth-page">
+  <h1>Crear cuenta</h1>
+
+  <form (submit)="$event.preventDefault(); onSubmit()">
+    <label>
+      Nombre
+      <input type="text" [value]="nombre()" (input)="nombre.set($any($event.target).value)" required minlength="2" autocomplete="name" />
+    </label>
+
+    <label>
+      Correo
+      <input type="email" [value]="correo()" (input)="correo.set($any($event.target).value)" required autocomplete="email" />
+    </label>
+
+    <label>
+      Clave
+      <input type="password" [value]="clave()" (input)="clave.set($any($event.target).value)" required minlength="8" autocomplete="new-password" />
+      <small>Mínimo 8 caracteres.</small>
+    </label>
+
+    @if (error()) {
+      <p class="auth-page__error">{{ error() }}</p>
+    }
+
+    <button type="submit" [disabled]="cargando()">
+      {{ cargando() ? 'Creando cuenta...' : 'Crear cuenta' }}
+    </button>
+  </form>
+
+  <p>¿Ya tienes cuenta? <a routerLink="/login">Iniciar sesión</a></p>
+</section>

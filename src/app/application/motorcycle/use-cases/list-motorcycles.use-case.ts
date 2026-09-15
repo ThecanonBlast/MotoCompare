@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Motorcycle } from '../../../domain/motorcycle/motorcycle.model';
+import { Motorcycle, MotorcycleFilters } from '../../../domain/motorcycle/motorcycle.model';
 import { MOTORCYCLE_REPOSITORY, MotorcycleRepository } from '../ports/motorcycle-repository.port';
 
 // Caso de uso: "listar motocicletas". Depende del puerto (interfaz),
@@ -10,7 +10,7 @@ import { MOTORCYCLE_REPOSITORY, MotorcycleRepository } from '../ports/motorcycle
 export class ListMotorcyclesUseCase {
   constructor(@Inject(MOTORCYCLE_REPOSITORY) private readonly repository: MotorcycleRepository) {}
 
-  execute(): Observable<Motorcycle[]> {
-    return this.repository.getAll();
+  execute(filters?: MotorcycleFilters): Observable<Motorcycle[]> {
+    return this.repository.getAll(filters);
   }
 }

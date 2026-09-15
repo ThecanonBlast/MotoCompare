@@ -1,0 +1,20 @@
+<section class="profile-page">
+  <h1>Mi perfil</h1>
+
+  @if (authService.usuario(); as usuario) {
+    <dl>
+      <dt>Nombre</dt>
+      <dd>{{ usuario.nombre }}</dd>
+
+      <dt>Correo</dt>
+      <dd>{{ usuario.correo }}</dd>
+
+      <dt>Cuenta creada</dt>
+      <dd>{{ usuario.creadoEn | date: 'longDate' }}</dd>
+    </dl>
+
+    <a routerLink="/garage">Ir a Mi Garage</a>
+
+    <button type="button" (click)="onLogout()">Cerrar sesión</button>
+  }
+</section>
