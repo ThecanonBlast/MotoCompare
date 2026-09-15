@@ -34,7 +34,13 @@
           </dl>
 
           <div class="detail__actions">
-            <a routerLink="/comparador" class="detail__cta detail__cta--primary">Comparar esta moto</a>
+            <button
+              type="button"
+              class="detail__cta detail__cta--primary"
+              (click)="compareThisMotorcycle(moto.id)"
+            >
+              Comparar esta moto
+            </button>
             <button
               type="button"
               class="detail__cta detail__cta--secondary"

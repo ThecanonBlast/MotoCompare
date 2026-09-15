@@ -19,7 +19,14 @@
 
     <div class="motorcycle-card__footer">
       <span class="motorcycle-card__price">{{ formatPrice(motorcycle().precio) }}</span>
-      <a [routerLink]="['/motocicletas', motorcycle().id]" class="motorcycle-card__link">Ver detalle</a>
+
+      @if (selectableForCompare()) {
+        <button type="button" class="motorcycle-card__link" (click)="onPickForCompare()">
+          Elegir esta moto
+        </button>
+      } @else {
+        <a [routerLink]="['/motocicletas', motorcycle().id]" class="motorcycle-card__link">Ver detalle</a>
+      }
     </div>
   </div>
 </article>

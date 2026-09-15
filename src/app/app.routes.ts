@@ -7,6 +7,7 @@ import { Register } from './pages/register/register';
 import { Profile } from './pages/profile/profile';
 import { authGuard } from './infrastructure/auth/auth.guard';
 import { Garage } from './pages/garage/garage';
+import { Compare } from './pages/compare/compare';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -16,4 +17,5 @@ export const routes: Routes = [
   { path: 'registro', component: Register },
   { path: 'perfil', component: Profile, canActivate: [authGuard] },
   { path: 'garage', component: Garage, canActivate: [authGuard] },
+  { path: 'comparador', component: Compare },
 ];
